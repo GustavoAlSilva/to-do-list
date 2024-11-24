@@ -70,8 +70,6 @@ public class TaskService {
 
         if (status == TaskStatus.done) {
             task.setCompletedAt(LocalDate.now());
-        } else if (status == TaskStatus.canceled) {
-            task.setCanceledAt(LocalDate.now());
         }
 
         return taskRepository.save(task);
