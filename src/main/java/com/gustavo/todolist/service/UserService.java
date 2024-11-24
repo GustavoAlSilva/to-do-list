@@ -41,18 +41,4 @@ public class UserService {
     public void delete(Integer id) {
         userRepository.deleteById(id);
     }
-
-    public UserResponseDTO convertToDTO(User user) {
-        UserResponseDTO dto = new UserResponseDTO();
-        dto.setId(user.getId());
-        dto.setUsername(user.getUsername());
-        dto.setEmail(user.getEmail());
-        return dto;
-    }
-
-    public List<UserResponseDTO> convertToDTOList(List<User> users) {
-        return users.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
-    }
 }

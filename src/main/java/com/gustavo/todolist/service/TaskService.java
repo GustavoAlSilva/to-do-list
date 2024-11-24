@@ -38,22 +38,21 @@ public class TaskService {
         return task;
     }
 
-    public List<TaskResponseDTO> findByUserId(Integer userId) {
-        List<Task> tasks = taskRepository.findByUserId(userId);
-        return tasks.stream().map(this::convertToDTO).collect(Collectors.toList());
+    public List<Task> findByUserId(Integer userId) {
+        return taskRepository.findByUserId(userId);
     }
 
-    public TaskResponseDTO create(Task task) {
+    public Task create(Task task) {
         task.setStatus(TaskStatus.todo);
-        return this.convertToDTO(taskRepository.save(task));
+        return taskRepository.save(task);
     }
 
-    public TaskResponseDTO update(Integer id, Task updatedTask) {
+    public Task update(Integer id, Task updatedTask) {
         Task existingTask = findById(id);
         existingTask.setTitle(updatedTask.getTitle());
         existingTask.setDescription(updatedTask.getDescription());
         existingTask.setDueDate(updatedTask.getDueDate());
-        return this.convertToDTO(taskRepository.save(existingTask));
+        return taskRepository.save(existingTask);
     }
 
     public Task updateTaskStatus(Integer id, TaskStatus status) {
@@ -71,18 +70,5 @@ public class TaskService {
 
     public void deleteTask(Integer id) {
         taskRepository.deleteById(id);
-    }
-
-    private TaskResponseDTO convertToDTO(Task task) {
-        TaskResponseDTO dto = new TaskResponseDTO();
-        dto.setId(task.getId());
-        dto.setTitle(task.getTitle());
-        dto.setDescription(task.getDescription());
-        dto.setStatus(task.getStatus());
-        dto.setDueDate(task.getDueDate());
-        dto.setCompletedAt(task.getCompletedAt());
-        dto.setCanceledAt(task.getCanceledAt());
-        dto.setUserId(task.getUser().getId());
-        return dto;
     }
 }

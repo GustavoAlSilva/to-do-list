@@ -2,6 +2,7 @@ package com.gustavo.todolist.controller;
 
 import com.gustavo.todolist.dto.UserResponseDTO;
 import com.gustavo.todolist.entity.User;
+import com.gustavo.todolist.mapper.UserMapper;
 import com.gustavo.todolist.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,36 +14,38 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final UserMapper userMapper;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserMapper userMapper) {
         this.userService = userService;
+        this.userMapper = userMapper;
     }
 
     @GetMapping
     public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
         List<User> users = userService.findAll();
-        List<UserResponseDTO> response = userService.convertToDTOList(users);
+        List<UserResponseDTO> response = userMapper.toDTOList(users);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Integer id) {
         User user = userService.findById(id);
-        UserResponseDTO response = userService.convertToDTO(user);
+        UserResponseDTO response = userMapper.toDTO(user);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping
     public ResponseEntity<UserResponseDTO> createUser(@RequestBody User user) {
         User createdUser = userService.create(user);
-        UserResponseDTO response = userService.convertToDTO(createdUser);
+        UserResponseDTO response = userMapper.toDTO(createdUser);
         return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Integer id, @RequestBody User user) {
         User updatedUser = userService.update(id, user);
-        UserResponseDTO response = userService.convertToDTO(updatedUser);
+        UserResponseDTO response = userMapper.toDTO(updatedUser);
         return ResponseEntity.ok(response);
     }
 
