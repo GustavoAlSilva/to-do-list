@@ -28,9 +28,14 @@ public class TaskController {
         return ResponseEntity.ok(taskService.findById(id));
     }
 
-    @GetMapping("by-title/{title}")
+    @GetMapping("/by-title/{title}")
     public ResponseEntity<Task> getTaskByTitle(@PathVariable String title) {
         return ResponseEntity.ok(taskService.findByTitle(title));
+    }
+
+    @GetMapping("/by-user/{userId}")
+    public ResponseEntity<List<Task>> getTasksByUserId(@PathVariable Integer userId) {
+        return ResponseEntity.ok(taskService.findByUserId(userId));
     }
 
     @PostMapping

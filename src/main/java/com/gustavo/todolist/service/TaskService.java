@@ -36,6 +36,10 @@ public class TaskService {
         return task;
     }
 
+    public List<Task> findByUserId(Integer userId) {
+        return taskRepository.findByUserId(userId);
+    }
+
     public Task create(Task task) {
         task.setStatus(TaskStatus.todo);
         return taskRepository.save(task);
