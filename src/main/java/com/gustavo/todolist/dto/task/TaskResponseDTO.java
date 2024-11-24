@@ -1,4 +1,4 @@
-package com.gustavo.todolist.dto;
+package com.gustavo.todolist.dto.task;
 
 import com.gustavo.todolist.enums.TaskStatus;
 import lombok.Data;

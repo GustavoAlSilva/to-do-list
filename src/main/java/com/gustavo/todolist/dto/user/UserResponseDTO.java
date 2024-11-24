@@ -1,4 +1,4 @@
-package com.gustavo.todolist.dto;
+package com.gustavo.todolist.dto.user;
 
 import lombok.Data;
 

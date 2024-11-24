@@ -1,6 +1,6 @@
 package com.gustavo.todolist.controller;
 
-import com.gustavo.todolist.dto.UserResponseDTO;
+import com.gustavo.todolist.dto.user.UserResponseDTO;
 import com.gustavo.todolist.entity.User;
 import com.gustavo.todolist.mapper.UserMapper;
 import com.gustavo.todolist.service.UserService;

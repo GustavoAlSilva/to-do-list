@@ -1,12 +1,10 @@
 package com.gustavo.todolist.service;
 
-import com.gustavo.todolist.dto.UserResponseDTO;
 import com.gustavo.todolist.entity.User;
 import com.gustavo.todolist.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {

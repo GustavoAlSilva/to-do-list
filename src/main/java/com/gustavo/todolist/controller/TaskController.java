@@ -1,6 +1,8 @@
 package com.gustavo.todolist.controller;
 
-import com.gustavo.todolist.dto.TaskResponseDTO;
+import com.gustavo.todolist.dto.task.TaskCreateDTO;
+import com.gustavo.todolist.dto.task.TaskResponseDTO;
+import com.gustavo.todolist.dto.task.TaskUpdateDTO;
 import com.gustavo.todolist.entity.Task;
 import com.gustavo.todolist.enums.TaskStatus;
 import com.gustavo.todolist.mapper.TaskMapper;
@@ -51,17 +53,17 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<TaskResponseDTO> createTask(@RequestBody Task task) {
-        Task createdTask = taskService.create(task);
-        TaskResponseDTO response = taskMapper.toDTO(createdTask);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<TaskResponseDTO> createTask(@RequestBody TaskCreateDTO taskCreateDTO) {
+        Task createdTask = taskService.create(taskCreateDTO);
+        TaskResponseDTO taskResponseDTO = taskMapper.toDTO(createdTask);
+        return ResponseEntity.ok(taskResponseDTO);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TaskResponseDTO> updateTask(@PathVariable Integer id, @RequestBody Task task) {
-        Task updatedTask = taskService.update(id, task);
-        TaskResponseDTO response = taskMapper.toDTO(updatedTask);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<TaskResponseDTO> updateTask(@PathVariable Integer id, @RequestBody TaskUpdateDTO taskUpdateDTO) {
+        Task updatedTask = taskService.update(id, taskUpdateDTO);
+        TaskResponseDTO taskResponseDTO = taskMapper.toDTO(updatedTask);
+        return ResponseEntity.ok(taskResponseDTO);
     }
 
     @PatchMapping("/{id}/status")

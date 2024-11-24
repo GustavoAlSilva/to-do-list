@@ -1,6 +1,6 @@
 package com.gustavo.todolist.mapper;
 
-import com.gustavo.todolist.dto.TaskResponseDTO;
+import com.gustavo.todolist.dto.task.TaskResponseDTO;
 import com.gustavo.todolist.entity.Task;
 import org.springframework.stereotype.Component;
 

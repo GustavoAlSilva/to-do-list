@@ -1,22 +1,25 @@
 package com.gustavo.todolist.service;
 
-import com.gustavo.todolist.dto.TaskResponseDTO;
+import com.gustavo.todolist.dto.task.TaskCreateDTO;
+import com.gustavo.todolist.dto.task.TaskUpdateDTO;
 import com.gustavo.todolist.entity.Task;
+import com.gustavo.todolist.entity.User;
 import com.gustavo.todolist.enums.TaskStatus;
 import com.gustavo.todolist.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class TaskService {
 
     private final TaskRepository taskRepository;
+    private final UserService userService;
 
-    public TaskService(TaskRepository taskRepository) {
+    public TaskService(TaskRepository taskRepository, UserService userService) {
         this.taskRepository = taskRepository;
+        this.userService = userService;
     }
 
     public List<Task> findAll() {
@@ -42,16 +45,22 @@ public class TaskService {
         return taskRepository.findByUserId(userId);
     }
 
-    public Task create(Task task) {
+    public Task create(TaskCreateDTO taskCreateDTO) {
+        User user = userService.findById(taskCreateDTO.getUserId());
+        Task task = new Task();
+        task.setTitle(taskCreateDTO.getTitle());
+        task.setDescription(taskCreateDTO.getDescription());
+        task.setDueDate(taskCreateDTO.getDueDate());
+        task.setUser(user);
         task.setStatus(TaskStatus.todo);
         return taskRepository.save(task);
     }
 
-    public Task update(Integer id, Task updatedTask) {
+    public Task update(Integer id, TaskUpdateDTO taskUpdateDTO) {
         Task existingTask = findById(id);
-        existingTask.setTitle(updatedTask.getTitle());
-        existingTask.setDescription(updatedTask.getDescription());
-        existingTask.setDueDate(updatedTask.getDueDate());
+        existingTask.setTitle(taskUpdateDTO.getTitle());
+        existingTask.setDescription(taskUpdateDTO.getDescription());
+        existingTask.setDueDate(taskUpdateDTO.getDueDate());
         return taskRepository.save(existingTask);
     }
 
