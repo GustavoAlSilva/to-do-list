@@ -1,6 +1,6 @@
 package com.gustavo.todolist.controller;
 
-import com.gustavo.todolist.dto.LoginRequest;
+import com.gustavo.todolist.dto.LoginRequestDTO;
 import com.gustavo.todolist.entity.User;
 import com.gustavo.todolist.exception.AuthenticationException;
 import com.gustavo.todolist.service.AuthService;
@@ -21,9 +21,9 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<Map<String, Object>> login(@RequestBody LoginRequestDTO request) {
         try {
-            User user = authService.authenticate(loginRequest.getUsername(), loginRequest.getPassword());
+            User user = authService.authenticate(request.getUsername(), request.getPassword());
 
             Map<String, Object> response = new HashMap<>();
             response.put("id", user.getId());

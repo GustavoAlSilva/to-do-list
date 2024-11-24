@@ -1,5 +1,6 @@
 package com.gustavo.todolist.controller;
 
+import com.gustavo.todolist.dto.UserResponseDTO;
 import com.gustavo.todolist.entity.User;
 import com.gustavo.todolist.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -18,28 +19,31 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getAllUsers() {
-        return userService.findAll();
+    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
+        List<User> users = userService.findAll();
+        List<UserResponseDTO> response = userService.convertToDTOList(users);
+        return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/{id:\\d+}")
-    public ResponseEntity<User> getUserById(@PathVariable Integer id) {
-        return ResponseEntity.ok(userService.findById(id));
-    }
-
-    @GetMapping("/{username:[a-zA-Z]+}")
-    public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
-        return ResponseEntity.ok(userService.findByUsername(username));
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Integer id) {
+        User user = userService.findById(id);
+        UserResponseDTO response = userService.convertToDTO(user);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        return ResponseEntity.ok(userService.create(user));
+    public ResponseEntity<UserResponseDTO> createUser(@RequestBody User user) {
+        User createdUser = userService.create(user);
+        UserResponseDTO response = userService.convertToDTO(createdUser);
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Integer id, @RequestBody User user) {
-        return ResponseEntity.ok(userService.update(id, user));
+    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Integer id, @RequestBody User user) {
+        User updatedUser = userService.update(id, user);
+        UserResponseDTO response = userService.convertToDTO(updatedUser);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
