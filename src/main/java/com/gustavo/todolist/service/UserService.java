@@ -52,7 +52,7 @@ public class UserService {
 
     public List<UserResponseDTO> convertToDTOList(List<User> users) {
         return users.stream()
-            .map(this::convertToDTO)
-            .collect(Collectors.toList());
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 }

@@ -1,5 +1,6 @@
 package com.gustavo.todolist.service;
 
+import com.gustavo.todolist.dto.TaskResponseDTO;
 import com.gustavo.todolist.entity.Task;
 import com.gustavo.todolist.enums.TaskStatus;
 import com.gustavo.todolist.repository.TaskRepository;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskService {
@@ -36,21 +38,22 @@ public class TaskService {
         return task;
     }
 
-    public List<Task> findByUserId(Integer userId) {
-        return taskRepository.findByUserId(userId);
+    public List<TaskResponseDTO> findByUserId(Integer userId) {
+        List<Task> tasks = taskRepository.findByUserId(userId);
+        return tasks.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
-    public Task create(Task task) {
+    public TaskResponseDTO create(Task task) {
         task.setStatus(TaskStatus.todo);
-        return taskRepository.save(task);
+        return this.convertToDTO(taskRepository.save(task));
     }
 
-    public Task update(Integer id, Task updatedTask) {
+    public TaskResponseDTO update(Integer id, Task updatedTask) {
         Task existingTask = findById(id);
         existingTask.setTitle(updatedTask.getTitle());
         existingTask.setDescription(updatedTask.getDescription());
         existingTask.setDueDate(updatedTask.getDueDate());
-        return taskRepository.save(existingTask);
+        return this.convertToDTO(taskRepository.save(existingTask));
     }
 
     public Task updateTaskStatus(Integer id, TaskStatus status) {
@@ -68,5 +71,18 @@ public class TaskService {
 
     public void deleteTask(Integer id) {
         taskRepository.deleteById(id);
+    }
+
+    private TaskResponseDTO convertToDTO(Task task) {
+        TaskResponseDTO dto = new TaskResponseDTO();
+        dto.setId(task.getId());
+        dto.setTitle(task.getTitle());
+        dto.setDescription(task.getDescription());
+        dto.setStatus(task.getStatus());
+        dto.setDueDate(task.getDueDate());
+        dto.setCompletedAt(task.getCompletedAt());
+        dto.setCanceledAt(task.getCanceledAt());
+        dto.setUserId(task.getUser().getId());
+        return dto;
     }
 }

@@ -1,5 +1,6 @@
 package com.gustavo.todolist.controller;
 
+import com.gustavo.todolist.dto.TaskResponseDTO;
 import com.gustavo.todolist.entity.Task;
 import com.gustavo.todolist.enums.TaskStatus;
 import com.gustavo.todolist.service.TaskService;
@@ -34,17 +35,17 @@ public class TaskController {
     }
 
     @GetMapping("/by-user/{userId}")
-    public ResponseEntity<List<Task>> getTasksByUserId(@PathVariable Integer userId) {
+    public ResponseEntity<List<TaskResponseDTO>> getTasksByUserId(@PathVariable Integer userId) {
         return ResponseEntity.ok(taskService.findByUserId(userId));
     }
 
     @PostMapping
-    public ResponseEntity<Task> createTask(@RequestBody Task task) {
+    public ResponseEntity<TaskResponseDTO> createTask(@RequestBody Task task) {
         return ResponseEntity.ok(taskService.create(task));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Task> updateTask(@PathVariable Integer id, @RequestBody Task task) {
+    public ResponseEntity<TaskResponseDTO> updateTask(@PathVariable Integer id, @RequestBody Task task) {
         return ResponseEntity.ok(taskService.update(id, task));
     }
 
