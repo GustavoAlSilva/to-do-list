@@ -1,9 +1,14 @@
 package com.gustavo.todolist.controller;
 
 import com.gustavo.todolist.dto.LoginRequest;
+import com.gustavo.todolist.entity.User;
+import com.gustavo.todolist.exception.AuthenticationException;
 import com.gustavo.todolist.service.AuthService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -16,13 +21,19 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
-        boolean isAuthenticated = authService.authenticate(loginRequest.getUsername(), loginRequest.getPassword());
+    public ResponseEntity<Map<String, Object>> login(@RequestBody LoginRequest loginRequest) {
+        try {
+            User user = authService.authenticate(loginRequest.getUsername(), loginRequest.getPassword());
 
-        if (isAuthenticated) {
-            return ResponseEntity.ok("Login successful");
+            Map<String, Object> response = new HashMap<>();
+            response.put("id", user.getId());
+            response.put("username", user.getUsername());
+            return ResponseEntity.ok(response);
+
+        } catch (AuthenticationException e) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
         }
-
-        return ResponseEntity.status(401).body("Invalid username and/or password");
     }
 }

@@ -1,6 +1,7 @@
 package com.gustavo.todolist.service;
 
 import com.gustavo.todolist.entity.User;
+import com.gustavo.todolist.exception.AuthenticationException;
 import com.gustavo.todolist.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +14,13 @@ public class AuthService {
         this.userRepository = userRepository;
     }
 
-    public boolean authenticate(String username, String password) {
+    public User authenticate(String username, String password) {
         User user = userRepository.findByUsername(username);
 
-        return user != null && user.getPassword().equals(password);
+        if (user == null || !user.getPassword().equals(password)) {
+            throw new AuthenticationException("Invalid username and/or password");
+        }
+
+        return user;
     }
 }
