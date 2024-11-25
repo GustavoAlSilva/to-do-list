@@ -11,3 +11,5 @@ Há a pasta `postman`, e ela contém as collections com as possíveis requisiç�
 O primeiro usuário da aplicação deve ser criado através de uma requisição via Postman ou via SQL no banco de dados. Exemplo de SQL:
 INSERT INTO user (username, password, email)
 VALUES ('Gustavo', '123', 'gustavo@gmail.com');
+
+Simplificando, a API possui: um CRUD de usuário(s); um CRUD de tarefa(s); e uma rota para autenticação.
