@@ -18,7 +18,6 @@ public class TaskMapper {
         dto.setStatus(task.getStatus());
         dto.setDueDate(task.getDueDate());
         dto.setCompletedAt(task.getCompletedAt());
-        dto.setCanceledAt(task.getCanceledAt());
         dto.setUserId(task.getUser().getId());
         return dto;
     }
