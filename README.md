@@ -1,4 +1,4 @@
-#to-do-list-api
+# to-do-list-api
 
 Bem-vindo ao repositório to-do-list-api, uma API desenvolvida para a disciplina de Programação para Dispositivos Móveis, da Universidade do Estado de Santa Catarina. A API será consumida por um aplicação mobile de gerenciamento de tarefas.
 
